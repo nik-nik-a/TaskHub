@@ -27,6 +27,34 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Progress Reports:
 
+### Report 2 (Sep 6, 2025)
+
+**What I built:**
+  - Completed the Sign Up screen with the following:
+      - Username, email, password and confirm password fields
+      - Password visibility toggle for both password fields
+      - Validation checks for empty fields, minimum length, and matching passwords
+      - Email format validation using 'RegEx'
+  - Improved the login screen:
+      - Converted to 'Form' with validators
+      - Centralized layout with scroll support
+  - Added navigation:
+      - Login to HomeScreen on success
+      - Login to SignUp and SignUp to Login using 'Navigator.pushReplacement'
+    
+**What I learned:**
+  - Difference between 'TextField' and 'TextFormField'
+  - How to use 'GlobalKey<FormState>' for validation across multiple fields
+  - How to show quick feedback using 'ScaffoldMessenger.of(context).showSnackBar'
+  - Using 'SigleChildScrollView' and 'ConstrainedBox' to keep forms centered and usable on all screen sizes
+
+**Planned features:**
+  - "Check your inbox" screen for email verification after Sign Up
+  - Adding "Forgot Password" flow
+  - starting to design the main menu layout
+
+
+
 ### Report 1 (Aug 30, 2025)
 
 **What I built:**
