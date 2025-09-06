@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 import 'home_screen.dart';
-import 'signup_screen.dart';
-
-class LoginScreen extends StatefulWidget {
-    const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+    const SignUpScreen({super.key});
 
     @override
-    State<LoginScreen> createState() => _LoginScreenState();
+    State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
     bool _obscurePassword = true;
+    bool _obscureVerification = true;
     final _formKey = GlobalKey<FormState>();
-    final TextEditingController _emailCtrl = TextEditingController();
-    final TextEditingController _passwordCtrl = TextEditingController();
+    final _usernameCtrl = TextEditingController();
+    final _emailCtrl = TextEditingController();
+    final _passwordCtrl = TextEditingController();
+    final _confirmCtrl = TextEditingController();
     @override
     void dispose() {
+        _usernameCtrl.dispose();
         _emailCtrl.dispose();
         _passwordCtrl.dispose();
+        _confirmCtrl.dispose();
         super.dispose();
     }
     @override
@@ -25,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return Scaffold(
             appBar: AppBar(
                 title: Text(
-                    "Log in to your account",
+                    "Sign Up",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -44,6 +48,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                    TextFormField(
+                                        controller: _usernameCtrl,
+                                        autocorrect: false,
+                                        textCapitalization: TextCapitalization.none,
+                                        decoration: const InputDecoration(
+                                            labelText: "Username",
+                                            border: OutlineInputBorder(),
+                                        ),
+                                        validator: (value) {
+                                            if (value == null || value.trim().isEmpty) {
+                                                return "Please enter a username";
+                                            }
+                                            if (value.trim().length < 3) {
+                                                return "Username must be at least 3 characters";
+                                            }
+                                            return null;
+                                        },
+                                    ),
+                                    const SizedBox(height: 16),
+
                                     TextFormField(
                                         controller: _emailCtrl,
                                         keyboardType: TextInputType.emailAddress,
@@ -88,17 +112,53 @@ class _LoginScreenState extends State<LoginScreen> {
                                             if (value == null || value.trim().isEmpty) {
                                                 return "Please enter a password";
                                             }
+                                            if (value.length < 6) {
+                                                return "Password must be at least 6 characters";
+                                            }
                                             return null;
                                         },
-                                    ), 
+                                    ),
                                     const SizedBox(height: 16),
                                     
+                                    TextFormField(
+                                        controller: _confirmCtrl,
+                                        obscureText: _obscureVerification,
+                                        autofillHints: const [AutofillHints.password],
+                                        decoration: InputDecoration(
+                                            labelText: "Confirm Password",
+                                            border: OutlineInputBorder(),
+                                            suffixIcon: IconButton(
+                                                icon: Icon(
+                                                    _obscureVerification ? Icons.visibility_off : Icons.visibility,
+                                                ),
+                                                onPressed: () {
+                                                    setState(() {
+                                                        _obscureVerification = !_obscureVerification;
+                                                    });
+                                                },
+                                            ),
+                                        ),
+                                        validator: (value) {
+                                            if (value == null || value.trim().isEmpty) {
+                                                return "Please confirm your password";
+                                            }
+                                            if (value != _passwordCtrl.text) {
+                                                return "Passwords do not match";
+                                            }
+                                            return null;
+                                        },
+                                    ),
+                                    const SizedBox(height: 16),
+
                                     ElevatedButton(
                                         onPressed: () {
                                             final isValid = _formKey.currentState!.validate();
                                             if (!isValid) {
                                                 return;
                                             }
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(content: Text("Account created!")),
+                                            );
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(builder: (context) => HomeScreen())
@@ -106,8 +166,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         },
                                         child: Padding(
                                             padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-                                            child: Text("Log in"),
-                                        ),    
+                                            child: Text("Sign up"),
+                                        ),
                                     ),
                                     const SizedBox(height: 16),
 
@@ -116,18 +176,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => SignUpScreen(), 
+                                                    builder: (context) => const LoginScreen(),
                                                 ),
                                             );
                                         },
-                                        child: const Text("Don't have an account? Sign up"),
+                                        child: const Text("Already have an account? Log in"),
                                     ),
                                 ],
                             ),
-                        ),    
-                    ),
-                ),
-            ),
+                        ),
+                    ),    
+                ),    
+            ), 
         );
     }
 }
