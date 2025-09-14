@@ -27,6 +27,32 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Progress Reports:
 
+### Report 3 (Sep 14, 2025)
+
+**What I built:**
+  - Added 'AppShell' with a 'BottomNavigationBar' (5 tabs): Home, Timetable, Chats, Tasks, Notes
+  - Wired tab content using an 'IndexedStack' so each tab preserves its state when switching        between them
+  - Created an email verification screen with the following:
+      - Verification code input field with functions like:
+          - Allowing only numbers to be typed in 
+          - Maximum length of 6 characters using 'MaxLength'
+      - "Resend email" button
+    
+**What I learned:**
+  - How to share data across files, using a separate 'globals.dart' file
+  - How to keep track of which tab is selected, using an 'int index: _currentIndex'
+  - How to switch screen content, using '_currentIndex' inside a 'setState'
+
+**Planned features:**
+  - Build the 'Tasks' tab with:
+      - Task list using 'ListView'
+      - Add-task dialogue
+      - Checkbox to mark done
+    - Add "Forgot password" flow and "Resend email" cooldown behavior
+    - Begin Basic theming (colors, typography) for a consistent look across screens
+
+
+
 ### Report 2 (Sep 6, 2025)
 
 **What I built:**
@@ -46,12 +72,12 @@ samples, guidance on mobile development, and a full API reference.
   - Difference between 'TextField' and 'TextFormField'
   - How to use 'GlobalKey<FormState>' for validation across multiple fields
   - How to show quick feedback using 'ScaffoldMessenger.of(context).showSnackBar'
-  - Using 'SigleChildScrollView' and 'ConstrainedBox' to keep forms centered and usable on all screen sizes
+  - Using 'SingleChildScrollView' and 'ConstrainedBox' to keep forms centered and usable on all screen sizes
 
 **Planned features:**
   - "Check your inbox" screen for email verification after Sign Up
   - Adding "Forgot Password" flow
-  - starting to design the main menu layout
+  - Starting to design the main menu layout
 
 
 
