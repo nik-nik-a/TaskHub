@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'app_shell.dart';
 import 'signup_screen.dart';
+import 'globals.dart';
 
 class LoginScreen extends StatefulWidget {
     const LoginScreen({super.key});
@@ -15,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final TextEditingController _emailCtrl = TextEditingController();
     final TextEditingController _passwordCtrl = TextEditingController();
     @override
-    void dispose() {
+    void dispose() { 
         _emailCtrl.dispose();
         _passwordCtrl.dispose();
         super.dispose();
@@ -99,9 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                             if (!isValid) {
                                                 return;
                                             }
+                                            currentUserEmail = _emailCtrl.text;
                                             Navigator.pushReplacement(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => HomeScreen())
+                                                MaterialPageRoute(builder: (context) => AppShell())
                                             );
                                         },
                                         child: Padding(

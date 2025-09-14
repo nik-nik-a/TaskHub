@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
-import 'home_screen.dart';
+import 'email_verification_screen.dart';
+import 'globals.dart';
+
 class SignUpScreen extends StatefulWidget {
     const SignUpScreen({super.key});
 
@@ -156,12 +158,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             if (!isValid) {
                                                 return;
                                             }
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(content: Text("Account created!")),
-                                            );
+                                            currentUserEmail = _emailCtrl.text;
                                             Navigator.pushReplacement(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => HomeScreen())
+                                                MaterialPageRoute(builder: (context) => EmailVerificationScreen())
                                             );
                                         },
                                         child: Padding(
