@@ -27,6 +27,30 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Progress Reports:
 
+### Report 4 (Sep 27, 2025)
+
+**What I built:**
+  - Completed the Tasks tab with the following:
+      - Task creation flow with title and optional description
+      - Task list UI with checkboxes to mark completed tasks
+      - View details dialog to show full title and description
+      - Task editing flow
+      - Delete and undo delete (via swipe or delete button)
+      - Local persistence with 'shared_preferences' so tasks remain saved after app restart
+
+**What I learned:**
+  - How to separate responsibilities by reusing one dialog widget for both add and edit, reducing code duplication
+  - How to persist structured data using 'JSON' and 'SharedPreferences'
+  - How to use widgets like 'SingleChildScrollView', 'SelectableText', and 'SnackBarAction' to improve UX.
+
+**Planned features:**
+  - Add due dates and reminders for tasks
+  - Implement filtering and sorting (e.g., Today/Upcoming/Completed)
+  - Sync tasks across devices with a backend database
+  - Enable collaboration features (e.g., shared group tasks)
+
+
+
 ### Report 3 (Sep 14, 2025)
 
 **What I built:**
@@ -48,8 +72,8 @@ samples, guidance on mobile development, and a full API reference.
       - Task list using 'ListView'
       - Add-task dialogue
       - Checkbox to mark done
-    - Add "Forgot password" flow and "Resend email" cooldown behavior
-    - Begin Basic theming (colors, typography) for a consistent look across screens
+  - Add "Forgot password" flow and "Resend email" cooldown behavior
+  - Begin Basic theming (colors, typography) for a consistent look across screens
 
 
 
