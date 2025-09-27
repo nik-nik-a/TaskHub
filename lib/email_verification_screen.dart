@@ -59,6 +59,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                         const SizedBox(height: 16),
                                     ],
 
+                                    // Confirmation code input field
                                     TextFormField(
                                         controller: _codeCtrl,
                                         keyboardType: TextInputType.number, 
@@ -78,6 +79,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // 'Confirm' button
                                     ElevatedButton(
                                         onPressed: () {
                                             final isValid = _formKey.currentState!.validate();
@@ -97,6 +99,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                     ),
                                     const SizedBox(height: 16),
                                     
+                                    // 'Resend email' button
                                     TextButton(
                                         onPressed: () {
                                             ScaffoldMessenger.of(context).showSnackBar(
@@ -108,6 +111,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // Transfer to log in screen
                                     TextButton(
                                         onPressed: () {
                                             Navigator.pushReplacement(

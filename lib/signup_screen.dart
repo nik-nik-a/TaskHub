@@ -50,6 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                    // Username input field
                                     TextFormField(
                                         controller: _usernameCtrl,
                                         autocorrect: false,
@@ -70,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // Email input field
                                     TextFormField(
                                         controller: _emailCtrl,
                                         keyboardType: TextInputType.emailAddress,
@@ -92,6 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // Password input field
                                     TextFormField(
                                         controller: _passwordCtrl,
                                         obscureText: _obscurePassword,
@@ -122,6 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
                                     
+                                    // Password confirmation field
                                     TextFormField(
                                         controller: _confirmCtrl,
                                         obscureText: _obscureVerification,
@@ -152,6 +156,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // 'Sign up' button
                                     ElevatedButton(
                                         onPressed: () {
                                             final isValid = _formKey.currentState!.validate();
@@ -171,6 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // Transfer to log in screen
                                     TextButton(
                                         onPressed: () {
                                             Navigator.pushReplacement(

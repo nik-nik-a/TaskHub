@@ -45,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                    // Email input field
                                     TextFormField(
                                         controller: _emailCtrl,
                                         keyboardType: TextInputType.emailAddress,
@@ -67,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // Password input field
                                     TextFormField(
                                         controller: _passwordCtrl,
                                         obscureText: _obscurePassword,
@@ -94,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ), 
                                     const SizedBox(height: 16),
                                     
+                                    // 'Log in' button
                                     ElevatedButton(
                                         onPressed: () {
                                             final isValid = _formKey.currentState!.validate();
@@ -113,6 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
+                                    // Transfer to sign up screen 
                                     TextButton(
                                         onPressed: () {
                                             Navigator.pushReplacement(
