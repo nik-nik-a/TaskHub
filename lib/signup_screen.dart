@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
-import 'email_verification_screen.dart';
-import 'globals.dart';
+import 'login_screen.dart'; // Navigates back to login screen
+import 'email_verification_screen.dart'; // Next step after sign-up
+import 'globals.dart'; // Global variables
 
+/// -------------------- Sign Up Screen --------------------
 class SignUpScreen extends StatefulWidget {
     const SignUpScreen({super.key});
 
@@ -11,13 +12,19 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+    // Toggles for hiding/showing password & confirm password fields
     bool _obscurePassword = true;
     bool _obscureVerification = true;
+
+    // Form key used for validating inputs
     final _formKey = GlobalKey<FormState>();
+
+    // Controllers for each input field
     final _usernameCtrl = TextEditingController();
     final _emailCtrl = TextEditingController();
     final _passwordCtrl = TextEditingController();
     final _confirmCtrl = TextEditingController();
+
     @override
     void dispose() {
         _usernameCtrl.dispose();
@@ -26,9 +33,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _confirmCtrl.dispose();
         super.dispose();
     }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            // Top bar
             appBar: AppBar(
                 title: Text(
                     "Sign Up",
@@ -39,6 +48,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
             centerTitle: true,
             ),
+
+            // Main content
             body: Center(
                 child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),
@@ -50,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                    // Username input field
+                                    // -------- Username field --------
                                     TextFormField(
                                         controller: _usernameCtrl,
                                         autocorrect: false,
@@ -60,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             border: OutlineInputBorder(),
                                         ),
                                         validator: (value) {
+                                            // Validation: required & min length
                                             if (value == null || value.trim().isEmpty) {
                                                 return "Please enter a username";
                                             }
@@ -71,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
-                                    // Email input field
+                                    // -------- Email field --------
                                     TextFormField(
                                         controller: _emailCtrl,
                                         keyboardType: TextInputType.emailAddress,
@@ -83,6 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             border: OutlineInputBorder(),
                                         ),
                                         validator: (value) {
+                                            // Validation: required & regex email format
                                             if (value == null || value.trim().isEmpty) {
                                                 return "Please enter an email";
                                             }
@@ -94,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
-                                    // Password input field
+                                    // -------- Password field --------
                                     TextFormField(
                                         controller: _passwordCtrl,
                                         obscureText: _obscurePassword,
@@ -106,6 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 icon: Icon(
                                                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
                                                 ),
+                                                // Toggle visibility of password
                                                 onPressed: () {
                                                     setState(() {
                                                         _obscurePassword = !_obscurePassword;
@@ -114,6 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             ),
                                         ),
                                         validator: (value) {
+                                            // Validation: required & minimum length
                                             if (value == null || value.trim().isEmpty) {
                                                 return "Please enter a password";
                                             }
@@ -125,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
                                     
-                                    // Password confirmation field
+                                    // -------- Confirm Password field --------
                                     TextFormField(
                                         controller: _confirmCtrl,
                                         obscureText: _obscureVerification,
@@ -137,6 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 icon: Icon(
                                                     _obscureVerification ? Icons.visibility_off : Icons.visibility,
                                                 ),
+                                                // Toggle visibility of password
                                                 onPressed: () {
                                                     setState(() {
                                                         _obscureVerification = !_obscureVerification;
@@ -145,6 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             ),
                                         ),
                                         validator: (value) {
+                                            // Validation: required & must match password
                                             if (value == null || value.trim().isEmpty) {
                                                 return "Please confirm your password";
                                             }
@@ -156,13 +173,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
-                                    // 'Sign up' button
+                                    // -------- Sign Up button --------
                                     ElevatedButton(
                                         onPressed: () {
                                             final isValid = _formKey.currentState!.validate();
                                             if (!isValid) {
                                                 return;
                                             }
+                                            
+                                            // Save email globally & go to verification screen
                                             currentUserEmail = _emailCtrl.text;
                                             Navigator.pushReplacement(
                                                 context,
@@ -176,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
-                                    // Transfer to log in screen
+                                    // -------- Link to Log In screen -------
                                     TextButton(
                                         onPressed: () {
                                             Navigator.pushReplacement(

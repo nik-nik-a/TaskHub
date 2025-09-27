@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Main Tasks tab widget
 class TabTasks extends StatefulWidget {
     const TabTasks({super.key});
 
@@ -9,6 +10,7 @@ class TabTasks extends StatefulWidget {
     State<TabTasks> createState() => _TabTasksState();
 }
 
+// -------------------- Dialog for Adding/Editing Tasks --------------------
 class _TaskEditorDialog extends StatefulWidget {
     const _TaskEditorDialog({
         super.key,
@@ -25,6 +27,7 @@ class _TaskEditorDialog extends StatefulWidget {
     State<_TaskEditorDialog> createState() => _TaskEditorDialogState();
 }
 
+// Simple draft object used to pass dialog results back
 class TaskDraft {
     final String title;
     final String? description;
@@ -32,10 +35,12 @@ class TaskDraft {
 }
 
 class _TaskEditorDialogState extends State<_TaskEditorDialog> {
+    // Controllers for input fields
     final _titleCtrl = TextEditingController();
     final _descCtrl = TextEditingController();
     bool _submitted = false;
 
+    // Called when "Add"/"Save" is pressed
     void _submit() {
         if (_submitted) return;
         _submitted = true;
@@ -71,6 +76,7 @@ class _TaskEditorDialogState extends State<_TaskEditorDialog> {
                 child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                        // Title input
                         TextField(
                             controller: _titleCtrl,
                             autofocus: true,
@@ -83,6 +89,7 @@ class _TaskEditorDialogState extends State<_TaskEditorDialog> {
                         ),
                         const SizedBox(height: 12),
 
+                        // Description input (optional)
                         TextField(
                             controller: _descCtrl,
                             decoration: const InputDecoration(
@@ -99,10 +106,12 @@ class _TaskEditorDialogState extends State<_TaskEditorDialog> {
                 ),
             ),
             actions: [
+                // Cancel button
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: const Text('Cancel'),
                 ),
+                // Add/Save button
                 ElevatedButton(
                     onPressed: _submit,
                     child: Text(widget.submitLabel),
@@ -112,8 +121,9 @@ class _TaskEditorDialogState extends State<_TaskEditorDialog> {
     }
 }
 
+// -------------------- Task Model --------------------
 class Task {
-    final String id;
+    final String id; // Unique ID for each task
     String title;
     String? description;
     bool done;
@@ -125,6 +135,7 @@ class Task {
         String? id,
     }) : id =  id ?? DateTime.now().microsecondsSinceEpoch.toString();
 
+    // Convert to Map for JSON storage
     Map<String, dynamic> toMap() => {
         'id': id,
         'title': title,
@@ -132,6 +143,7 @@ class Task {
         'done': done,
     };
 
+    // Create Task object from JSON
     factory Task.fromMap(Map<String, dynamic> m) => Task(
         id: m['id'] as String?,
         title: m['title'] as String,
@@ -140,10 +152,12 @@ class Task {
     );
 }
 
+// -------------------- Tasks Tab State --------------------
 class _TabTasksState extends State<TabTasks> {
     final List<Task> _tasks = [];
     static const _kTasksKey = 'tasks_v1';
 
+    // -------- Add New Task --------
     Future<void> _showAddTaskDialog() async {
         final draft = await showDialog<TaskDraft>(
             context: context,
@@ -168,6 +182,7 @@ class _TabTasksState extends State<TabTasks> {
         _saveTasks();
     }
 
+    // -------- View Task Details --------
     void _showTaskDetails(Task task) {
         showDialog<void>(
             context: context,
@@ -209,6 +224,7 @@ class _TabTasksState extends State<TabTasks> {
         );
     }
 
+     // -------- Edit Task --------
     Future<void> _editTask(Task task) async {
         final draft = await showDialog<TaskDraft>(
             context: context,
@@ -238,6 +254,7 @@ class _TabTasksState extends State<TabTasks> {
         await _saveTasks();
     }
 
+    // -------- Delete Task with Undo --------
     void _deleteTaskById(String id) {
         final removedIndex = _tasks.indexWhere((t) => t.id == id);
         if (removedIndex == -1) return;
@@ -246,6 +263,7 @@ class _TabTasksState extends State<TabTasks> {
         setState(() => _tasks.removeAt(removedIndex));
         _saveTasks();
 
+        // Undo delete flow
         ScaffoldMessenger.of(context)
             ..clearSnackBars()
             ..showSnackBar(
@@ -268,6 +286,7 @@ class _TabTasksState extends State<TabTasks> {
             );    
     }
 
+    // -------- Load Tasks from Local Storage --------
     Future<void> _loadTasks() async {
         final prefs = await SharedPreferences.getInstance();
         final raw = prefs.getString(_kTasksKey);
@@ -292,6 +311,7 @@ class _TabTasksState extends State<TabTasks> {
         }
     }
 
+    // -------- Save Tasks to Local Storage --------
     Future<void> _saveTasks() async {
         final prefs = await SharedPreferences.getInstance();
         final raw = jsonEncode(_tasks.map((t) => t.toMap()).toList());
@@ -304,6 +324,7 @@ class _TabTasksState extends State<TabTasks> {
         _loadTasks();
     }
 
+    // -------------------- UI --------------------
     @override
     Widget build(BuildContext context) {
         return Padding(
@@ -311,6 +332,7 @@ class _TabTasksState extends State<TabTasks> {
             child: Column(
                  mainAxisSize: MainAxisSize.max,
                  children: [
+                    // Add Task Button
                     Align(
                         alignment: Alignment.centerLeft,
                         child: ElevatedButton.icon(
@@ -320,6 +342,8 @@ class _TabTasksState extends State<TabTasks> {
                         ),
                     ),
                     const SizedBox(height: 16),
+
+                    // Task List
                     Expanded(
                         child: _tasks.isEmpty
                             ? const Center(
@@ -348,15 +372,17 @@ class _TabTasksState extends State<TabTasks> {
                                             child: const Icon(Icons.delete, color: Colors.red),
                                         ),
                                         onDismissed: (_) => _deleteTaskById(task.id),
+
+                                        // Each task row
                                         child: ListTile(
-                                            onTap: () => _showTaskDetails(task),
+                                            onTap: () => _showTaskDetails(task), // Tap to view details
                                             leading: Checkbox(
                                                 value: task.done,
                                                 onChanged: (checked) {
                                                     setState(() {
                                                         task.done = checked ?? false;
                                                     });
-                                                    _saveTasks();
+                                                    _saveTasks(); // Save after checking/unchecking
                                                 },
                                             ),    
                                             title: Text(
@@ -378,11 +404,13 @@ class _TabTasksState extends State<TabTasks> {
                                             trailing: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
+                                                    // Edit button
                                                     IconButton(
                                                         tooltip: 'Edit',
                                                         icon: const Icon(Icons.edit_outlined),
                                                         onPressed: () => _editTask(task),
                                                     ),
+                                                    // Delete button
                                                     IconButton(
                                                         tooltip: 'Delete',
                                                         icon: const Icon(Icons.delete_outline),

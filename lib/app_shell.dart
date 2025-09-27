@@ -5,6 +5,7 @@ import 'tab_chats.dart';
 import 'tab_tasks.dart';
 import 'tab_notes.dart';
 
+// Main "AppShell" widget that holds the bottom navigation and tabs
 class AppShell extends StatefulWidget {
     const AppShell({super.key});
 
@@ -13,11 +14,13 @@ class AppShell extends StatefulWidget {
 }
 
 class _AppShellState extends State<AppShell> {
+    // Keeps track of which tab is currently selected in the bottom navigation bar
     int _currentIndex = 0;
 
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            // Top app bar with the title "TaskHub"
             appBar: AppBar(
                 title: Text(
                     "TaskHub",
@@ -28,24 +31,29 @@ class _AppShellState extends State<AppShell> {
                 ),
             centerTitle: true,
             ),
+
+            // The main content switches between different tabs
             body: IndexedStack(
-                index: _currentIndex,
+                index: _currentIndex, // which child to show
                 children: const [
-                    TabHome(),
-                    TabTimetable(),
-                    TabChats(),
-                    TabTasks(),
-                    TabNotes(),
+                    TabHome(), // Home screen
+                    TabTimetable(), // Timetable
+                    TabChats(), // Group chats
+                    TabTasks(), // Tasks/To-do list
+                    TabNotes(), // Notes
                 ],
             ),
+
+            // Bottom navigation bar for switching between the 5 main tabs
             bottomNavigationBar: BottomNavigationBar(
-                currentIndex: _currentIndex,
+                currentIndex: _currentIndex, // highlights current tab
                 onTap: (index) {
+                    // Update the selected tab when user taps a button
                     setState(() {
                         _currentIndex = index;
                     });
                 },
-                type: BottomNavigationBarType.fixed,
+                type: BottomNavigationBarType.fixed, // shows all icons at once
                 items: const [
                     BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                     BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Timetable"),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'app_shell.dart';
-import 'signup_screen.dart';
-import 'globals.dart';
+import 'app_shell.dart'; // Main app shell shown after login
+import 'signup_screen.dart'; // Sign up screen
+import 'globals.dart'; // Global state 
 
+// -------------------- Login Screen --------------------
 class LoginScreen extends StatefulWidget {
     const LoginScreen({super.key});
 
@@ -11,10 +12,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-    bool _obscurePassword = true;
-    final _formKey = GlobalKey<FormState>();
+    // Hide/show password toggle
+    bool _obscurePassword = true; 
+
+    // Form key used to validate email/password inputs
+    final _formKey = GlobalKey<FormState>(); 
+
+    // Controllers for the text fields
     final TextEditingController _emailCtrl = TextEditingController();
     final TextEditingController _passwordCtrl = TextEditingController();
+
     @override
     void dispose() { 
         _emailCtrl.dispose();
@@ -24,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            // Top bar with centered title
             appBar: AppBar(
                 title: Text(
                     "Log in to your account",
@@ -34,6 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
             centerTitle: true,
             ),
+
+            // Main content
             body: Center(
                 child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),
@@ -45,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                    // Email input field
+                                    // -------- Email field --------
                                     TextFormField(
                                         controller: _emailCtrl,
                                         keyboardType: TextInputType.emailAddress,
@@ -57,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             border: OutlineInputBorder(),
                                         ),
                                         validator: (value) {
+                                            // Validation logic: required + regex format check
                                             if (value == null || value.trim().isEmpty) {
                                                 return "Please enter an email";
                                             }
@@ -68,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
-                                    // Password input field
+                                    // -------- Password field --------
                                     TextFormField(
                                         controller: _passwordCtrl,
                                         obscureText: _obscurePassword,
@@ -80,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 icon: Icon(
                                                     _obscurePassword ? Icons.visibility_off : Icons.visibility,
                                                 ),
+                                                // Toggle visibility of password
                                                 onPressed: () {
                                                     setState(() {
                                                         _obscurePassword = !_obscurePassword;
@@ -88,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                         ),
                                         validator: (value) {
+                                            // Validation: password required
                                             if (value == null || value.trim().isEmpty) {
                                                 return "Please enter a password";
                                             }
@@ -96,14 +109,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ), 
                                     const SizedBox(height: 16),
                                     
-                                    // 'Log in' button
+                                    // -------- Log in button --------
                                     ElevatedButton(
                                         onPressed: () {
+                                            // Validate form inputs
                                             final isValid = _formKey.currentState!.validate();
                                             if (!isValid) {
                                                 return;
                                             }
+                                             // Save user email globally
                                             currentUserEmail = _emailCtrl.text;
+
+                                            // Navigate to main app shell, replacing login screen
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(builder: (context) => AppShell())
@@ -116,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     const SizedBox(height: 16),
 
-                                    // Transfer to sign up screen 
+                                    // -------- Link to Sign Up screen --------
                                     TextButton(
                                         onPressed: () {
                                             Navigator.pushReplacement(

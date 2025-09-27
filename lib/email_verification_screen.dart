@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'app_shell.dart';
-import 'login_screen.dart';
-import 'globals.dart';
+import 'app_shell.dart'; // Main app shell after login/verification
+import 'login_screen.dart'; // Allows navigation back to login
+import 'globals.dart'; // Stores global values
 
+
+// -------------------- Email Verification Screen --------------------
 class EmailVerificationScreen extends StatefulWidget {
     const EmailVerificationScreen({super.key});
 
@@ -12,8 +14,8 @@ class EmailVerificationScreen extends StatefulWidget {
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
-    final _formKey = GlobalKey<FormState>();
-    final TextEditingController _codeCtrl = TextEditingController();
+    final _formKey = GlobalKey<FormState>(); // Used for validation
+    final TextEditingController _codeCtrl = TextEditingController(); // Controller for input field
     @override
     void dispose() {
         _codeCtrl.dispose();
@@ -22,6 +24,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            // Top bar
             appBar: AppBar(
                 title: Text(
                     "Check your inbox",
@@ -32,6 +35,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 ),
             centerTitle: true,
             ),
+
+            // Main content
             body: Center(
                 child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16.0),
@@ -43,6 +48,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                    // Show current email if available
                                     if (currentUserEmail != null) ...[
                                         Text(
                                             "We sent a 6 digit code to:",
@@ -59,7 +65,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                         const SizedBox(height: 16),
                                     ],
 
-                                    // Confirmation code input field
+                                    // -------- Code input field --------
                                     TextFormField(
                                         controller: _codeCtrl,
                                         keyboardType: TextInputType.number, 
@@ -70,6 +76,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                             border: OutlineInputBorder(),
                                         ),
                                         validator: (value) {
+                                            // Validation: required
                                             final v = value?.trim() ?? '';
                                             if (v.isEmpty) return "Please enter a code";
                                             if (v.length != 6) return "The code must be exactly 6 digits";
@@ -78,15 +85,16 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                         },
                                     ),
                                     const SizedBox(height: 16),
-
-                                    // 'Confirm' button
+    
+                                    // -------- Confirm button --------
                                     ElevatedButton(
                                         onPressed: () {
                                             final isValid = _formKey.currentState!.validate();
                                             if (!isValid) return;
 
-                                            // verify the code
+                                            // TODO: Add real verification logic
 
+                                            // If code is valid -> navigate into main app
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(builder: (context) => AppShell())
@@ -99,19 +107,19 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                     ),
                                     const SizedBox(height: 16),
                                     
-                                    // 'Resend email' button
+                                    // -------- Resend email button --------
                                     TextButton(
                                         onPressed: () {
                                             ScaffoldMessenger.of(context).showSnackBar(
                                                 const SnackBar(content: Text("Verification email resent")),
                                             );
-                                            // Resend email 
+                                            // TODO: Implement actual resend logic
                                         },
                                         child: const Text("Resend email"),
                                     ),
                                     const SizedBox(height: 16),
 
-                                    // Transfer to log in screen
+                                    // -------- Back to login --------
                                     TextButton(
                                         onPressed: () {
                                             Navigator.pushReplacement(
