@@ -1,5 +1,10 @@
 # TaskHub
 
+![Flutter](https://img.shields.io/badge/Flutter-3.35-blue)
+![Platform](https://img.shields.io/badge/platform-Android%20|%20iOS%20|%20Web-green)
+![Status](https://img.shields.io/badge/status-Alpha-orange)
+![License](https://img.shields.io/badge/license-MIT-purple)
+
 A flutter project for students to organize tasks, timetables, and group activities.
 
 ## About the Project
@@ -9,6 +14,32 @@ TaskHub helps students manage their academic and personal life by providing:
   - Timetable management
   - Group collaboration through chats
   - Notes and reminders in one place
+
+## Current State (as of Oct 3, 2025)
+
+- **Core features completed:**
+    - User authentication (login, signup, email verification)
+    - Main app shell with 5 tabs: Home, Timetable, Chats, Tasks, Notes
+    - Tasks tab:
+        - Add, edit, delete, and undo delete
+        - Task details view
+        - Local persistence with SharedPreferences
+        - Due dates with auto-grouping into: No due date / This week / Next week / Later
+        - Collapsible sections that auto-close when empty
+    - Basic navigation flow between screens
+
+- **Currently missing:**
+    - Overdue task category
+    - Notifications/reminders
+    - Timetable and Notes are placeholder-only
+    - No backend sync yet (local-only data)
+
+- **Stability:**
+  The app runs on Android emulator and web build. Core task management works reliably and saves data.
+  Currently in early alpha: stable enough for testing, not ready for production.
+  
+- **Next steps:**
+  Add overdue bucket + reminders, begin timetable/notes expansion, and backend sync for multi-device use.
 
 ## Getting Started
 
@@ -26,6 +57,34 @@ samples, guidance on mobile development, and a full API reference.
 ---
 
 ## Progress Reports:
+
+### Report 5 (Oct 3, 2025)
+
+**What I built:**
+  - Implemented due dates for tasks
+  - Built a sorting and grouping system that automatically organizes tasks into categories:
+      - No due date
+      - This week
+      - Next week
+      - Later
+  - Added collapsible sections for each category
+  - Implemented auto-close behavior
+       - When a category has no tasks left, it collapses automatically
+       - When there are no tasks at all, all categories auto-close
+  - Improved task list UI by showing due dates under each task (if set)
+   
+**What I learned:**
+  - How to use enums ('TaskBucket') to categorize tasks dynamically
+  - How to implement grouping logic with a custom '_groupTasks()' method
+  - How to integrate ExpansionTile with custom trailing icons and counters
+
+**Planned features:**
+  - Add Overdue category to separate past-due tasks
+  - Add reminders/notifications for tasks with due dates
+  - Sync tasks across devices with backend storage
+  - Expand timetable and notes functionality
+
+
 
 ### Report 4 (Sep 27, 2025)
 
